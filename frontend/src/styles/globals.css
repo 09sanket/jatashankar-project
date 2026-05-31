@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+@config "../../tailwind.config.js";
+
+:root {
+  /* Branding Colors (Light Theme Core) */
+  --background: #FFF8E7; /* Soft Cream #FFF8E7 */
+  --foreground: #0F172A; /* Dark Slate */
+  
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --border: #E8E2D5; /* Cream Border */
+  
+  /* Primary Deep Red Theme */
+  --primary: #C91D1D;
+  --primary-foreground: #FFFFFF;
+  
+  /* Secondary Cream Theme */
+  --secondary: #FFF8E7;
+  --secondary-foreground: #C91D1D;
+  
+  /* Accent Golden Yellow Theme */
+  --accent: #D4A017;
+  --accent-foreground: #FFFFFF;
+  
+  --muted: #F2ECE0;
+  --muted-foreground: #64748B;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  
+  --destructive: #991B1B;
+  --destructive-foreground: #FFFFFF;
+  
+  --input: #E8E2D5;
+  --ring: #C91D1D;
+  
+  --radius: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0B0A08; /* Very Dark Brownish Black */
+    --foreground: #F8F5EE;
+    
+    --card: #151310;
+    --card-foreground: #F8F5EE;
+    --border: #2A251E;
+    
+    --primary: #EF4444;
+    --primary-foreground: #FFFFFF;
+    
+    --secondary: #1F1B16;
+    --secondary-foreground: #F1DD4D;
+    
+    --accent: #F1DD4D;
+    --accent-foreground: #0B0A08;
+    
+    --muted: #25201A;
+    --muted-foreground: #A1A1AA;
+    
+    --popover: #151310;
+    --popover-foreground: #F8F5EE;
+    
+    --input: #2A251E;
+    --ring: #EF4444;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography System Helpers */
+.font-academic {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.heading-primary {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Premium Gradient Collections */
+.gradient-academic-red {
+  background: linear-gradient(135deg, #C91D1D 0%, #991B1B 100%);
+}
+
+.gradient-academic-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #B5840D 100%);
+}
+
+.gradient-cream-gold {
+  background: linear-gradient(135deg, #FAF6EE 0%, #F5E6CC 100%);
+}
+
+.gradient-red-gold-line {
+  background: linear-gradient(90deg, #C91D1D 0%, #D4A017 100%);
+}
+
+/* Custom Decorative Typography Elements */
+.title-accent-bar {
+  position: relative;
+  display: inline-block;
+}
+
+.title-accent-bar::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #C91D1D 0%, #D4A017 100%);
+  border-radius: 2px;
+}
+
+.title-accent-bar-center {
+  position: relative;
+  display: inline-block;
+}
+
+.title-accent-bar-center::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #C91D1D 0%, #D4A017 100%);
+  border-radius: 2px;
+}
+
+/* Premium Layout & Elevation Classes */
+.card-premium {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px -15px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card-premium-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card-premium-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.12);
+  border-color: rgba(212, 160, 23, 0.3); /* Subtle gold borders on hover */
+}
+
+/* Button & Active States Styles */
+.btn-academic-primary {
+  background: linear-gradient(135deg, #C91D1D 0%, #B91C1C 100%);
+  color: #FFFFFF;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px -3px rgba(201, 29, 29, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-academic-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(201, 29, 29, 0.45);
+  background: linear-gradient(135deg, #B91C1C 0%, #991B1B 100%);
+}
+
+.btn-academic-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #B5840D 100%);
+  color: #FFFFFF;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px -3px rgba(212, 160, 23, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-academic-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(212, 160, 23, 0.45);
+  background: linear-gradient(135deg, #ca8a04 0%, #a16207 100%);
+}
+
+.btn-academic-outline {
+  border: 1.5px solid #C91D1D;
+  color: #C91D1D;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-academic-outline:hover {
+  background: rgba(201, 29, 29, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphism Accents */
+.glass-academic {
+  background: rgba(252, 249, 242, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232, 226, 213, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.03);
+}
+
+/* Responsive Padding Systems */
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+@theme inline {
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  
+  --color-brand-red: var(--primary);
+  --color-brand-gold: var(--accent);
+  --color-brand-cream: var(--secondary);
+  --color-brand-dark: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-extrabold;
+  }
+}
