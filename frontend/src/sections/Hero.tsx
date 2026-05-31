@@ -262,20 +262,22 @@ export default function Hero() {
           <div className="hidden lg:flex items-center justify-center relative">
 
             {/* Floating Course/Info Tags overlaid on image */}
-            {[
-              { top: "12%", left: "-8%",  val: "B.Sc. Physiotherapy", icon: "🏥", delay: 0.5 },
-              { top: "30%", right: "-5%", val: "X-Ray Technology",    icon: "📡", delay: 0.65 },
-              { top: "50%", left: "-12%", val: "Medical Lab Tech",    icon: "🔬", delay: 0.8 },
-              { top: "68%", right: "-8%", val: "OT Technology",       icon: "🩺", delay: 0.95 },
-              { top: "85%", left: "5%",   val: "Community Medicine",  icon: "💊", delay: 1.1 },
-            ].map((tag) => (
+            {(
+              [
+                { top: "12%", left: "-8%",  val: "B.Sc. Physiotherapy", icon: "🏥", delay: 0.5 },
+                { top: "30%", right: "-5%", val: "X-Ray Technology",    icon: "📡", delay: 0.65 },
+                { top: "50%", left: "-12%", val: "Medical Lab Tech",    icon: "🔬", delay: 0.8 },
+                { top: "68%", right: "-8%", val: "OT Technology",       icon: "🩺", delay: 0.95 },
+                { top: "85%", left: "5%",   val: "Community Medicine",  icon: "💊", delay: 1.1 },
+              ] as { top: string; left?: string; right?: string; val: string; icon: string; delay: number }[]
+            ).map((tag) => (
               <motion.div
                 key={tag.val}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: tag.delay, duration: 0.5 }}
                 className="absolute bg-white/95 backdrop-blur-md border border-slate-100 shadow-lg rounded-full px-5 py-2.5 flex items-center gap-2.5 z-20"
-                style={{ top: tag.top, left: tag.left, right: (tag as any).right }}
+                style={{ top: tag.top, left: tag.left, right: tag.right }}
               >
                 <span className="text-lg" aria-hidden="true">{tag.icon}</span>
                 <span className="text-xs font-bold text-slate-800 whitespace-nowrap">{tag.val}</span>
