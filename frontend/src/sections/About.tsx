@@ -154,7 +154,7 @@ export default function About() {
               className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-md"
             >
               <Image
-                src="/branding/homeimg.jpeg"
+                src="/branding/Homemain.jpeg"
                 alt="Jatashankar Institute Building"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -172,7 +172,7 @@ export default function About() {
                 className="relative aspect-square overflow-hidden rounded-full shadow-md border-4 border-white ring-1 ring-slate-100 self-center"
               >
                 <Image
-                  src="/branding/homeimg.jpeg"
+                  src="/branding/Homemain.jpeg"
                   alt="Students in Lab"
                   fill
                   sizes="200px"

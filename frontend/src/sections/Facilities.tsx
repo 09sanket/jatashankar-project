@@ -102,7 +102,7 @@ export default function Facilities() {
           {/* Curved frame */}
           <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-gold-500">
             <Image
-              src="/branding/homeimg.jpeg"
+              src="/branding/facility img.png"
               alt="Institute building"
               width={600}
               height={400}
