@@ -73,6 +73,37 @@ export async function createFaculty(data: FacultyInput): Promise<string> {
 }
 
 /**
+ * Helper to sort faculty in the exact requested order:
+ * Manish, Ashish, Badi Bhabhi, Chhoti Bhabhi, Naveen
+ * Any other new faculty will be appended at the end chronologically.
+ */
+function sortFacultyList(facultyList: FacultyMember[]): FacultyMember[] {
+  const exactOrder = [
+    ["manish"],
+    ["aashish", "aasish", "ashish"],
+    ["badi"],
+    ["chhoti", "choti"],
+    ["naveen"]
+  ];
+
+  return facultyList.sort((a, b) => {
+    const nameA = (a.name || "").toLowerCase();
+    const nameB = (b.name || "").toLowerCase();
+
+    let idxA = exactOrder.findIndex(keywords => keywords.some(k => nameA.includes(k)));
+    let idxB = exactOrder.findIndex(keywords => keywords.some(k => nameB.includes(k)));
+
+    if (idxA === -1) idxA = 999;
+    if (idxB === -1) idxB = 999;
+
+    if (idxA !== idxB) {
+      return idxA - idxB;
+    }
+    return 0; // Maintain original createdAt ascending order for others
+  });
+}
+
+/**
  * Fetches all faculty members from Firestore, ordered by newest first.
  *
  * @returns A promise resolving to an array of FacultyMembers
@@ -81,10 +112,11 @@ export async function getFaculty(): Promise<FacultyMember[]> {
   try {
     const facultyQuery = query(
       collection(db, "faculty"),
-      orderBy("createdAt", "desc")
+      orderBy("createdAt", "asc")
     );
     const querySnapshot = await getDocs(facultyQuery);
-    return querySnapshot.docs.map(mapSnapshotToFacultyMember);
+    const facultyList = querySnapshot.docs.map(mapSnapshotToFacultyMember);
+    return sortFacultyList(facultyList);
   } catch (error) {
     console.error("Firestore getFaculty failure:", error);
     throw error;
@@ -104,10 +136,11 @@ export async function getFacultyByDepartment(department: string): Promise<Facult
     const facultyQuery = query(
       collection(db, "faculty"),
       where("department", "==", department),
-      orderBy("createdAt", "desc")
+      orderBy("createdAt", "asc")
     );
     const querySnapshot = await getDocs(facultyQuery);
-    return querySnapshot.docs.map(mapSnapshotToFacultyMember);
+    const facultyList = querySnapshot.docs.map(mapSnapshotToFacultyMember);
+    return sortFacultyList(facultyList);
   } catch (error) {
     console.error(`Firestore getFacultyByDepartment (Department: ${department}) failure:`, error);
     throw error;

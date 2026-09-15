@@ -252,23 +252,19 @@ export default function Faculty() {
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
                     className="h-full group p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col items-center text-center space-y-4 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-200 transition-all duration-300"
                   >
-                    {/* Faculty Portrait exactly like reference */}
-                    <div className="relative w-full h-48 flex justify-center items-end mb-2">
-                      {/* Background Decorative Circle (light peach/pink) */}
-                      <div className="absolute top-4 w-40 h-40 rounded-full bg-[#FFF0E6] dark:bg-slate-800 transition-transform duration-500 group-hover:scale-105"></div>
-                      
-                      {/* Foreground Image - Cutout style */}
-                      <div className="relative z-10 w-44 h-48 overflow-hidden rounded-b-3xl">
+                    {/* Faculty Portrait - Uniform Square */}
+                    <div className="relative w-full flex justify-center mb-4 mt-2">
+                      <div className="relative z-10 w-44 h-44 overflow-hidden rounded-2xl border-4 border-white dark:border-slate-800 shadow-md">
                         {fac.imageUrl ? (
                           <Image
                             src={fac.imageUrl}
                             alt={fac.name}
                             fill
                             sizes="176px"
-                            className="object-contain object-bottom"
+                            className="object-cover object-top"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-end justify-center pb-4 text-slate-300 dark:text-slate-600">
+                          <div className="w-full h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 text-slate-300 dark:text-slate-600">
                             <Users className="w-16 h-16" />
                           </div>
                         )}
