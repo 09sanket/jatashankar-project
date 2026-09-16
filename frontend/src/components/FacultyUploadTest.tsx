@@ -16,22 +16,7 @@ type StatusState = {
   message: string;
 } | null;
 
-const departments = [
-  "Administration & Management",
-  "Academic Administration",
-  "Department of Physiotherapy",
-  "Department of Radiography",
-  "Department of X-Ray Technology",
-  "Department of Medical Laboratory Technology",
-  "Department of Hematology",
-  "Department of Histopathology",
-  "Department of Microbiology",
-  "Department of Biochemistry",
-  "Department of Physiology",
-  "Operation Theatre Technology",
-  "Computer & Administration",
-  "Front Office & Administration",
-];
+
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -69,7 +54,7 @@ function Field({ label, icon, children }: InputFieldProps) {
 export default function FacultyUploadTest() {
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
-  const [department, setDepartment] = useState("Administration & Management");
+  const [department, setDepartment] = useState("");
   const [experience, setExperience] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
@@ -109,7 +94,7 @@ export default function FacultyUploadTest() {
   const resetForm = () => {
     setName("");
     setDesignation("");
-    setDepartment("Administration & Management");
+    setDepartment("");
     setExperience("");
     setSpecialization("");
     setDescription("");
@@ -220,16 +205,14 @@ export default function FacultyUploadTest() {
             {/* Row 2: Department + Experience */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Department (विभाग)" icon={<FolderKanban className="w-4 h-4" />} disabled={isLoading}>
-                <select
+                <input
+                  type="text"
+                  placeholder="e.g. Department of Physiotherapy"
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
                   disabled={isLoading}
-                  className={`${inputClass} appearance-none cursor-pointer`}
-                >
-                  {departments.map((dept) => (
-                    <option key={dept} value={dept}>{dept}</option>
-                  ))}
-                </select>
+                  className={inputClass}
+                />
               </Field>
 
               <Field label="Experience (अनुभव)" icon={<Clock className="w-4 h-4" />} disabled={isLoading}>
