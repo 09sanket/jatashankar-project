@@ -17,12 +17,20 @@ type StatusState = {
 } | null;
 
 const departments = [
-  "Physiotherapy",
-  "Medical Lab Technology",
-  "Radiology",
-  "Anatomy",
-  "Community Medicine",
+  "Administration & Management",
+  "Academic Administration",
+  "Department of Physiotherapy",
+  "Department of Radiography",
+  "Department of X-Ray Technology",
+  "Department of Medical Laboratory Technology",
+  "Department of Hematology",
+  "Department of Histopathology",
+  "Department of Microbiology",
+  "Department of Biochemistry",
+  "Department of Physiology",
   "Operation Theatre Technology",
+  "Computer & Administration",
+  "Front Office & Administration",
 ];
 
 const cardVariants = {
@@ -61,7 +69,7 @@ function Field({ label, icon, children }: InputFieldProps) {
 export default function FacultyUploadTest() {
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
-  const [department, setDepartment] = useState("Physiotherapy");
+  const [department, setDepartment] = useState("Administration & Management");
   const [experience, setExperience] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
@@ -101,7 +109,7 @@ export default function FacultyUploadTest() {
   const resetForm = () => {
     setName("");
     setDesignation("");
-    setDepartment("Physiotherapy");
+    setDepartment("Administration & Management");
     setExperience("");
     setSpecialization("");
     setDescription("");
