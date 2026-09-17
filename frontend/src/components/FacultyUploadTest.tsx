@@ -54,7 +54,7 @@ function Field({ label, icon, children }: InputFieldProps) {
 export default function FacultyUploadTest() {
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
-  const [department, setDepartment] = useState("");
+
   const [experience, setExperience] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
@@ -94,7 +94,7 @@ export default function FacultyUploadTest() {
   const resetForm = () => {
     setName("");
     setDesignation("");
-    setDepartment("");
+
     setExperience("");
     setSpecialization("");
     setDescription("");
@@ -110,7 +110,7 @@ export default function FacultyUploadTest() {
     // Required field validation
     if (!name.trim())           { setStatus({ type: "error", message: "Faculty Name is required." }); return; }
     if (!designation.trim())    { setStatus({ type: "error", message: "Designation is required." }); return; }
-    if (!department)            { setStatus({ type: "error", message: "Please select a Department." }); return; }
+
     if (!experience.trim())     { setStatus({ type: "error", message: "Experience is required." }); return; }
     if (!specialization.trim()) { setStatus({ type: "error", message: "Specialization is required." }); return; }
     if (!description.trim())    { setStatus({ type: "error", message: "Description is required." }); return; }
@@ -130,7 +130,7 @@ export default function FacultyUploadTest() {
       await createFaculty({
         name: name.trim(),
         designation: designation.trim(),
-        department,
+
         experience: experience.trim(),
         specialization: specialization.trim(),
         description: description.trim(),
@@ -202,18 +202,8 @@ export default function FacultyUploadTest() {
               </Field>
             </div>
 
-            {/* Row 2: Department + Experience */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Department (विभाग)" icon={<FolderKanban className="w-4 h-4" />} disabled={isLoading}>
-                <input
-                  type="text"
-                  placeholder="e.g. Department of Physiotherapy"
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                  disabled={isLoading}
-                  className={inputClass}
-                />
-              </Field>
+            {/* Row 2: Experience */}
+            <div className="grid grid-cols-1 gap-4">
 
               <Field label="Experience (अनुभव)" icon={<Clock className="w-4 h-4" />} disabled={isLoading}>
                 <input

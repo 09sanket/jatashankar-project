@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, FileText, Image as ImageIcon, Users, BookOpen, 
-  Megaphone, Star, Settings, LogOut, Loader2, Heart 
+  Megaphone, Star, Settings, LogOut, Loader2, Heart, Compass
 } from "lucide-react";
 import { logoutAdmin } from "../../services/auth.service";
 import { showToast } from "../../lib/toast";
@@ -16,6 +16,7 @@ export const menuItems = [
   { name: "Enquiries", path: "/dashboard/enquiries", icon: <FileText className="w-4 h-4" /> },
   { name: "Gallery", path: "/dashboard/gallery", icon: <ImageIcon className="w-4 h-4" /> },
   { name: "Faculty", path: "/dashboard/faculty", icon: <Users className="w-4 h-4" /> },
+  { name: "Guides", path: "/dashboard/guides", icon: <Compass className="w-4 h-4" /> },
   { name: "Courses", path: "/dashboard/courses", icon: <BookOpen className="w-4 h-4" /> },
   { name: "Announcements", path: "/dashboard/announcements", icon: <Megaphone className="w-4 h-4" /> },
   { name: "Testimonials", path: "/dashboard/testimonials", icon: <Star className="w-4 h-4" /> },

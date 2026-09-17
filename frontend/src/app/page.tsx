@@ -37,6 +37,11 @@ const Faculty = dynamic(() => import("../sections/Faculty"), {
   ssr: true,
 });
 
+const Guides = dynamic(() => import("../sections/Guides"), {
+  loading: () => <div className="h-96 flex items-center justify-center animate-pulse bg-slate-50 dark:bg-slate-900 rounded-3xl m-8" />, 
+  ssr: true,
+});
+
 const Testimonials = dynamic(() => import("../sections/Testimonials"), {
   loading: () => <TestimonialsSkeleton />, 
   ssr: true,
@@ -58,6 +63,9 @@ export default function Home() {
 
           {/* 2. About Section */}
           <About />
+
+          {/* 2.5 Guides Section */}
+          <Guides />
 
           {/* 3. Announcements Section */}
           <Announcements />

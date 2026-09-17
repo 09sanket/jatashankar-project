@@ -1,14 +1,5 @@
 import { z } from "zod";
 
-export const announcementTypesList = [
-  "Admission",
-  "Event",
-  "Exam",
-  "Workshop",
-  "Holiday",
-  "Placement",
-] as const;
-
 export const announcementSchema = z.object({
   title: z
     .string()
@@ -22,19 +13,19 @@ export const announcementSchema = z.object({
     .min(1, { message: "Description is required." })
     .min(10, { message: "Description must be at least 10 characters." })
     .max(1000, { message: "Description cannot exceed 1000 characters." }),
-  type: z
-    .enum(announcementTypesList, {
-      message: "Please select a valid notice type.",
-    }),
-  important: z
-    .boolean(),
-  date: z
+  imageUrl: z
     .string()
     .trim()
-    .min(1, { message: "Date is required." })
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Please enter a valid date (e.g. YYYY-MM-DD).",
+    .optional()
+    .or(z.literal(""))
+    .refine((val) => !val || z.string().url().safeParse(val).success, {
+      message: "Invalid image URL.",
     }),
+  publicId: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal("")),
 });
 
 export type AnnouncementSchemaType = z.infer<typeof announcementSchema>;

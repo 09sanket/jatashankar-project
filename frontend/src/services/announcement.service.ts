@@ -3,7 +3,6 @@ import {
   collection,
   getDocs,
   query,
-  where,
   orderBy,
   serverTimestamp,
   DocumentData,
@@ -14,9 +13,8 @@ import { db } from "../firebase/firestore";
 export interface AnnouncementInput {
   title: string;
   description: string;
-  type: string;
-  important: boolean;
-  date: string;
+  imageUrl?: string;
+  publicId?: string;
 }
 
 export interface Announcement extends AnnouncementInput {
@@ -33,9 +31,8 @@ function mapSnapshotToAnnouncement(doc: QueryDocumentSnapshot<DocumentData>): An
     id: doc.id,
     title: data.title || "",
     description: data.description || "",
-    type: data.type || "",
-    important: typeof data.important === "boolean" ? data.important : false,
-    date: data.date || "",
+    imageUrl: data.imageUrl || "",
+    publicId: data.publicId || "",
     createdAt: data.createdAt,
   };
 }
@@ -51,9 +48,8 @@ export async function createAnnouncement(data: AnnouncementInput): Promise<strin
     const docRef = await addDoc(collection(db, "announcements"), {
       title: data.title,
       description: data.description,
-      type: data.type,
-      important: data.important,
-      date: data.date,
+      imageUrl: data.imageUrl || "",
+      publicId: data.publicId || "",
       createdAt: serverTimestamp(),
     });
     return docRef.id;
@@ -82,23 +78,4 @@ export async function getAnnouncements(): Promise<Announcement[]> {
   }
 }
 
-/**
- * Fetches only important announcements from Firestore, ordered by newest first.
- * Note: Requires a composite Firestore index on (important ASC, createdAt DESC).
- *
- * @returns A promise resolving to an array of important Announcement items
- */
-export async function getImportantAnnouncements(): Promise<Announcement[]> {
-  try {
-    const announcementsQuery = query(
-      collection(db, "announcements"),
-      where("important", "==", true),
-      orderBy("createdAt", "desc")
-    );
-    const querySnapshot = await getDocs(announcementsQuery);
-    return querySnapshot.docs.map(mapSnapshotToAnnouncement);
-  } catch (error) {
-    console.error("Firestore getImportantAnnouncements failure:", error);
-    throw error;
-  }
-}
+

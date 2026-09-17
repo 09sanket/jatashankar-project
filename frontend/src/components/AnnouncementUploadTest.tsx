@@ -56,9 +56,6 @@ function Field({ label, icon, children }: InputFieldProps) {
 export default function AnnouncementUploadTest() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("Admission");
-  const [important, setImportant] = useState(false);
-  const [date, setDate] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<StatusState>(null);
@@ -66,9 +63,6 @@ export default function AnnouncementUploadTest() {
   const resetForm = () => {
     setTitle("");
     setDescription("");
-    setType("Admission");
-    setImportant(false);
-    setDate("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,8 +70,6 @@ export default function AnnouncementUploadTest() {
 
     if (!title.trim())       { setStatus({ type: "error", message: "Announcement Title is required." }); return; }
     if (!description.trim()) { setStatus({ type: "error", message: "Description is required." }); return; }
-    if (!type)               { setStatus({ type: "error", message: "Please select an Announcement Type." }); return; }
-    if (!date.trim())        { setStatus({ type: "error", message: "Announcement Date is required." }); return; }
 
     setStatus(null);
     setIsLoading(true);
@@ -87,9 +79,6 @@ export default function AnnouncementUploadTest() {
       await createAnnouncement({
         title: title.trim(),
         description: description.trim(),
-        type,
-        important,
-        date: date.trim(),
       });
 
       setStatus({ type: "success", message: "Announcement Added Successfully ✅" });
@@ -142,33 +131,6 @@ export default function AnnouncementUploadTest() {
               />
             </Field>
 
-            {/* Row 2: Type Dropdown + Date Input */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Announcement Type (प्रकार)" icon={<Settings className="w-4 h-4" />}>
-                <select
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                  disabled={isLoading}
-                  className={`${inputClass} appearance-none cursor-pointer`}
-                >
-                  {typeOptions.map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
-              </Field>
-
-              <Field label="Publish Date" icon={<Calendar className="w-4 h-4" />}>
-                <input
-                  type="text"
-                  placeholder="e.g. 15th May, 2026"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  disabled={isLoading}
-                  className={inputClass}
-                />
-              </Field>
-            </div>
-
             {/* Description */}
             <div className="space-y-1.5 text-left">
               <label className="block text-[10px] font-bold text-slate-450 dark:text-slate-555 uppercase tracking-wider">
@@ -185,31 +147,6 @@ export default function AnnouncementUploadTest() {
                   className={`${inputClass} resize-none`}
                 />
               </div>
-            </div>
-
-            {/* Important Toggle Banner */}
-            <div className="flex items-center gap-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/20 dark:bg-slate-950/40 text-left">
-              <div className="w-8 h-8 rounded-full bg-[#9B111E]/10 flex items-center justify-center text-[#9B111E] shrink-0">
-                <BellRing className="w-4.5 h-4.5" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">High Priority Notice</h4>
-                <p className="text-[10px] text-slate-450 font-bold uppercase tracking-wider">Pin this announcement with a critical badge status</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setImportant(!important)}
-                disabled={isLoading}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  important ? "bg-[#9B111E]" : "bg-slate-200 dark:bg-slate-800"
-                }`}
-              >
-                <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                    important ? "translate-x-5" : "translate-x-0"
-                  }`}
-                />
-              </button>
             </div>
 
             {/* Submit Button */}

@@ -9,16 +9,45 @@ import {
 import { slideUp, staggerContainer } from "../animations/transitions";
 import { getFaculty, FacultyMember } from "../services/faculty.service";
 
-// Department icon resolver helper to keep semantic design
-function getDepartmentIcon(dept: string): React.ReactNode {
-  const norm = (dept || "").toLowerCase();
-  if (norm.includes("physio")) return <HeartPulse className="w-3.5 h-3.5" />;
-  if (norm.includes("lab") || norm.includes("technology")) return <FlaskConical className="w-3.5 h-3.5" />;
-  if (norm.includes("radio")) return <Scan className="w-3.5 h-3.5" />;
-  if (norm.includes("anat")) return <Brain className="w-3.5 h-3.5" />;
-  if (norm.includes("theatre") || norm.includes("ot")) return <Stethoscope className="w-3.5 h-3.5" />;
-  return <Users className="w-3.5 h-3.5" />;
-}
+
+
+// Subcomponent for a single Faculty Card
+const FacultyCard = ({ fac }: { fac: FacultyMember }) => (
+  <motion.div
+    variants={slideUp}
+    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+    className="h-full group p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col items-center text-center space-y-4 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-200 transition-all duration-300"
+  >
+    {/* Faculty Portrait - Uniform Square */}
+    <div className="relative w-full flex justify-center mb-4 mt-2">
+      <div className="relative z-10 w-44 h-44 overflow-hidden rounded-2xl border-4 border-white dark:border-slate-800 shadow-md">
+        {fac.imageUrl ? (
+          <Image
+            src={fac.imageUrl}
+            alt={fac.name}
+            fill
+            sizes="176px"
+            className="object-cover object-top"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 text-slate-300 dark:text-slate-600">
+            <Users className="w-16 h-16" />
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* Typography details */}
+    <div className="space-y-1 w-full flex flex-col items-center flex-1">
+      <h4 className="font-serif font-bold text-lg text-[#9B111E] dark:text-red-400">
+        {fac.name}
+      </h4>
+      <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+        {fac.designation}
+      </p>
+    </div>
+  </motion.div>
+);
 
 export default function Faculty() {
   const [facultyList, setFacultyList] = useState<FacultyMember[]>([]);
@@ -243,59 +272,25 @@ export default function Faculty() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-80px" }}
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+                className="space-y-8"
               >
-                {facultyList.map((fac, idx) => (
-                  <motion.div
-                    key={fac.id || idx}
-                    variants={slideUp}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                    className="h-full group p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col items-center text-center space-y-4 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-200 transition-all duration-300"
-                  >
-                    {/* Faculty Portrait - Uniform Square */}
-                    <div className="relative w-full flex justify-center mb-4 mt-2">
-                      <div className="relative z-10 w-44 h-44 overflow-hidden rounded-2xl border-4 border-white dark:border-slate-800 shadow-md">
-                        {fac.imageUrl ? (
-                          <Image
-                            src={fac.imageUrl}
-                            alt={fac.name}
-                            fill
-                            sizes="176px"
-                            className="object-cover object-top"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 text-slate-300 dark:text-slate-600">
-                            <Users className="w-16 h-16" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                {/* 1st Row: 2 Cards (Chairman & Director) */}
+                {facultyList.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {facultyList.slice(0, 2).map((fac, idx) => (
+                      <FacultyCard key={fac.id || idx} fac={fac} />
+                    ))}
+                  </div>
+                )}
 
-                    {/* Typography details */}
-                    <div className="space-y-1 w-full flex flex-col items-center flex-1">
-                      <h4 className="font-serif font-bold text-lg text-[#9B111E] dark:text-red-400">
-                        {fac.name}
-                      </h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-                        {fac.designation}
-                      </p>
-                    </div>
-
-                    {/* Department Badge at the bottom */}
-                    <div className="w-full mt-auto pt-4 flex justify-center">
-                      <div className="inline-flex items-center space-x-2">
-                        {/* Icon Circle */}
-                        <div className="w-7 h-7 rounded-full bg-[#9B111E] dark:bg-red-900/50 flex items-center justify-center text-white shrink-0 shadow-sm">
-                          {getDepartmentIcon(fac.department)}
-                        </div>
-                        {/* Text */}
-                        <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200">
-                          {fac.department}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                {/* Remaining Rows: 4 Cards per row */}
+                {facultyList.length > 2 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {facultyList.slice(2).map((fac, idx) => (
+                      <FacultyCard key={fac.id || idx + 2} fac={fac} />
+                    ))}
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

@@ -14,7 +14,7 @@ import { db } from "../firebase/firestore";
 export interface FacultyInput {
   name: string;
   designation: string;
-  department: string;
+  department?: string;
   description: string;
   imageUrl: string;
   publicId: string;
@@ -57,7 +57,7 @@ export async function createFaculty(data: FacultyInput): Promise<string> {
     const docRef = await addDoc(collection(db, "faculty"), {
       name: data.name,
       designation: data.designation,
-      department: data.department,
+      department: data.department || "",
       description: data.description,
       imageUrl: data.imageUrl,
       publicId: data.publicId,
@@ -73,28 +73,27 @@ export async function createFaculty(data: FacultyInput): Promise<string> {
 }
 
 /**
- * Helper to sort faculty in the exact requested order:
- * Manish, Ashish, Badi Bhabhi, Chhoti Bhabhi, Naveen
- * Any other new faculty will be appended at the end chronologically.
+ * Sorts the faculty list according to requested role hierarchy.
  */
 function sortFacultyList(facultyList: FacultyMember[]): FacultyMember[] {
-  const exactOrder = [
-    ["manish"],
-    ["aashish", "aasish", "ashish"],
-    ["badi"],
-    ["chhoti", "choti"],
-    ["naveen"]
-  ];
-
   return facultyList.sort((a, b) => {
-    const nameA = (a.name || "").toLowerCase();
-    const nameB = (b.name || "").toLowerCase();
+    const textA = ((a.name || "") + " " + (a.designation || "")).toLowerCase();
+    const textB = ((b.name || "") + " " + (b.designation || "")).toLowerCase();
 
-    let idxA = exactOrder.findIndex(keywords => keywords.some(k => nameA.includes(k)));
-    let idxB = exactOrder.findIndex(keywords => keywords.some(k => nameB.includes(k)));
+    const getIndex = (text: string) => {
+      if (text.includes("chairman")) return 1;
+      if (text.includes("director") && !text.includes("assistant")) return 2;
+      if (text.includes("secretary") || text.includes("secretory")) return 3;
+      if (text.includes("assistant director")) return 4;
+      if (text.includes("naveen")) return 5;
+      if (text.includes("manisha") || text.includes("principal")) return 6;
+      if (text.includes("vinit")) return 7;
+      if (text.includes("chandrashekhar")) return 8;
+      return 999;
+    };
 
-    if (idxA === -1) idxA = 999;
-    if (idxB === -1) idxB = 999;
+    const idxA = getIndex(textA);
+    const idxB = getIndex(textB);
 
     if (idxA !== idxB) {
       return idxA - idxB;

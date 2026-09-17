@@ -16,9 +16,8 @@ import { db } from "../firebase/firestore";
 export interface AnnouncementInput {
   title: string;
   description: string;
-  type: string;
-  important: boolean;
-  date: string;
+  imageUrl?: string;
+  publicId?: string;
 }
 
 export interface Announcement extends AnnouncementInput {
@@ -35,9 +34,8 @@ function mapSnapshotToAnnouncement(doc: QueryDocumentSnapshot<DocumentData>): An
     id: doc.id,
     title: data.title || "",
     description: data.description || "",
-    type: data.type || "",
-    important: typeof data.important === "boolean" ? data.important : false,
-    date: data.date || "",
+    imageUrl: data.imageUrl || "",
+    publicId: data.publicId || "",
     createdAt: data.createdAt,
   };
 }
@@ -53,9 +51,8 @@ export async function createAnnouncement(data: AnnouncementInput): Promise<strin
     const docRef = await addDoc(collection(db, "announcements"), {
       title: data.title,
       description: data.description,
-      type: data.type,
-      important: data.important,
-      date: data.date,
+      imageUrl: data.imageUrl || null,
+      publicId: data.publicId || null,
       createdAt: serverTimestamp(),
     });
     return docRef.id;
